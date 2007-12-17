@@ -11,7 +11,6 @@ Requires(post): info-install
 Requires(preun):info-install
 Requires:	m4
 Conflicts:	byacc <= 1.9-16mdk
-Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
 Bison is a general purpose parser generator which converts a grammar
