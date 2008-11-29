@@ -1,15 +1,20 @@
 Summary:	A GNU general-purpose parser generator
 Name:		bison
-Version:	2.3
-Release:	%mkrel 6
+Version:	2.4
+Release:	%mkrel 1
 License:	GPL
 Group:		Development/Other
 URL:		http://www.gnu.org/software/bison/bison.html
 Source0:	ftp://alpha.gnu.org/gnu/%{name}/%{name}-%{version}.tar.bz2
 Patch0:		bison-1.32-extfix.patch
+# (cjw) disable the test that checks if the input file will not 
+# be overwritten when the output filename is equal, because it 
+# fails due to additional error messages after the correct one
+Patch1:		bison-2.4-disable-input-overwrite-test.patch
 Requires(post): info-install
 Requires(preun):info-install
 Requires:	m4
+BuildRequires:	help2man
 Conflicts:	byacc <= 1.9-16mdk
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
@@ -32,6 +37,7 @@ since it is used to build many C programs.
 
 %setup -q
 %patch0 -p1 -b .extfix
+%patch1 -p1 -b .broken_pipe
 
 %build
 %configure2_5x
