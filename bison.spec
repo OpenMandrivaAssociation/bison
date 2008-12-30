@@ -1,20 +1,24 @@
 Summary:	A GNU general-purpose parser generator
 Name:		bison
-Version:	2.4
+Version:	2.4.1
 Release:	%mkrel 1
 License:	GPL
 Group:		Development/Other
 URL:		http://www.gnu.org/software/bison/bison.html
-Source0:	ftp://alpha.gnu.org/gnu/%{name}/%{name}-%{version}.tar.bz2
+Source0:	ftp://ftp.gnu.org/pub/gnu/bison/bison-%{version}.tar.bz2
 Patch0:		bison-1.32-extfix.patch
 # (cjw) disable the test that checks if the input file will not 
 # be overwritten when the output filename is equal, because it 
 # fails due to additional error messages after the correct one
 Patch1:		bison-2.4-disable-input-overwrite-test.patch
+Patch2:		bison-2.4-reap_subpipe.patch
+Patch3:		bison-2.4.1-format_not_a_string_literal_and_no_format_arguments.diff
 Requires(post): info-install
 Requires(preun):info-install
-Requires:	m4
+Requires:	m4 >= 1.4
 BuildRequires:	help2man
+BuildRequires:	java-1.6.0-openjdk-devel
+BuildRequires:	m4 >= 1.4
 Conflicts:	byacc <= 1.9-16mdk
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
@@ -38,6 +42,8 @@ since it is used to build many C programs.
 %setup -q
 %patch0 -p1 -b .extfix
 %patch1 -p1 -b .broken_pipe
+%patch2 -p1 -b .reap_subpipe
+%patch3 -p0 -b .format_not_a_string_literal_and_no_format_arguments
 
 %build
 %configure2_5x
@@ -85,6 +91,3 @@ rm -rf %{buildroot}
 %{_datadir}/aclocal/*
 %{_infodir}/bison.info*
 %{_mandir}/man1/*
-
-
-
