@@ -1,7 +1,9 @@
+%define staticdevelname %mklibname bison -d -s
+
 Summary:	A GNU general-purpose parser generator
 Name:		bison
 Version:	2.4.1
-Release:	%mkrel 3
+Release:	%mkrel 4
 License:	GPL
 Group:		Development/Other
 URL:		http://www.gnu.org/software/bison/bison.html
@@ -39,6 +41,19 @@ on systems that are used for development.
 If your system will be used for C development, you should install Bison
 since it is used to build many C programs.
 
+%package -n	%{staticdevelname}
+Summary:	Static development library for using Bison-generated parsers
+Group:		Development/C
+Requires:	bison = %{version}
+Provides:	bison-devel-static = %{version}
+
+%description -n	%{staticdevelname}
+This package contains the static -ly library sometimes used by programs using
+Bison-generated parsers. If you are developing programs using Bison, you might
+want to link with this library. This library is not required by all
+Bison-generated parsers, but may be employed by simple programs to supply
+minimal support for the generated parsers.
+
 %prep
 
 %setup -q
@@ -61,8 +76,6 @@ rm -rf %{buildroot}
 
 mv %{buildroot}%{_bindir}/yacc %{buildroot}%{_bindir}/yacc.bison
 
-# Remove unpackaged files
-rm %{buildroot}%{_libdir}/liby.a
 
 %find_lang %{name}
 %find_lang %{name}-runtime
@@ -93,3 +106,7 @@ rm -rf %{buildroot}
 %{_datadir}/aclocal/*
 %{_infodir}/bison.info*
 %{_mandir}/man1/*
+
+%files -n %{staticdevelname}
+%defattr(-,root,root)
+%{_libdir}/liby.a
