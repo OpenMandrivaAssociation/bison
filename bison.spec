@@ -9,11 +9,6 @@ Group:		Development/Other
 URL:		http://www.gnu.org/software/bison/bison.html
 Source0:	ftp://ftp.gnu.org/pub/gnu/bison/bison-%{version}.tar.bz2
 Patch0:		bison-1.32-extfix.patch
-# (cjw) disable the test that checks if the input file will not 
-# be overwritten when the output filename is equal, because it 
-# fails due to additional error messages after the correct one
-Patch1:		bison-2.4-disable-input-overwrite-test.patch
-Patch2:		bison-2.4-reap_subpipe.patch
 Patch3:		bison-2.4.1-format_not_a_string_literal_and_no_format_arguments.diff
 Requires(post): info-install
 Requires(preun):info-install
@@ -58,8 +53,6 @@ minimal support for the generated parsers.
 
 %setup -q
 %patch0 -p1 -b .extfix
-%patch1 -p1 -b .broken_pipe
-%patch2 -p1 -b .reap_subpipe
 %patch3 -p0 -b .format_not_a_string_literal_and_no_format_arguments
 
 %build
