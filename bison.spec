@@ -2,14 +2,13 @@
 
 Summary:	A GNU general-purpose parser generator
 Name:		bison
-Version:	2.4.2
+Version:	2.4.3
 Release:	%mkrel 1
 License:	GPL
 Group:		Development/Other
 URL:		http://www.gnu.org/software/bison/bison.html
 Source0:	ftp://ftp.gnu.org/pub/gnu/bison/bison-%{version}.tar.bz2
 Patch0:		bison-1.32-extfix.patch
-Patch3:		bison-2.4.1-format_not_a_string_literal_and_no_format_arguments.diff
 Requires(post): info-install
 Requires(preun):info-install
 Requires:	m4 >= 1.4
@@ -50,17 +49,15 @@ Bison-generated parsers, but may be employed by simple programs to supply
 minimal support for the generated parsers.
 
 %prep
-
 %setup -q
 %patch0 -p1 -b .extfix
-%patch3 -p0 -b .format_not_a_string_literal_and_no_format_arguments
 
 %build
 %configure2_5x
 %make
 
 %check
-make check
+%make check
 
 %install
 rm -rf %{buildroot}
