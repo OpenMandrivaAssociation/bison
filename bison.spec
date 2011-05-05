@@ -3,7 +3,7 @@
 Summary:	A GNU general-purpose parser generator
 Name:		bison
 Version:	2.4.3
-Release:	%mkrel 2
+Release:	3
 License:	GPL
 Group:		Development/Other
 URL:		http://www.gnu.org/software/bison/bison.html
@@ -70,6 +70,8 @@ mv %{buildroot}%{_bindir}/yacc %{buildroot}%{_bindir}/yacc.bison
 %find_lang %{name}
 %find_lang %{name}-runtime
 cat %name-runtime.lang >> %name.lang
+
+rm -f %{buildroot}%{_mandir}/man1/yacc.1
 
 %post
 %_install_info %{name}.info
