@@ -13,9 +13,6 @@ Requires(post): info-install
 Requires(preun):info-install
 Requires:	m4 >= 1.4
 BuildRequires:	help2man
-%ifnarch %mips %arm
-BuildRequires:	java-1.6.0-openjdk-devel
-%endif
 BuildRequires:	m4 >= 1.4
 Conflicts:	byacc <= 1.9-16mdk
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
