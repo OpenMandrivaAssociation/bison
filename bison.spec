@@ -3,19 +3,15 @@
 Summary:	A GNU general-purpose parser generator
 Name:		bison
 Version:	2.5
-Release:	1
+Release:	2
 License:	GPL
 Group:		Development/Other
 URL:		http://www.gnu.org/software/bison/bison.html
 Source0:	ftp://ftp.gnu.org/pub/gnu/bison/bison-%{version}.tar.bz2
 Patch0:		bison-1.32-extfix.patch
-Requires(post): info-install
-Requires(preun):info-install
 Requires:	m4 >= 1.4
 BuildRequires:	help2man
 BuildRequires:	m4 >= 1.4
-Conflicts:	byacc <= 1.9-16mdk
-Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
 Bison is a general purpose parser generator which converts a grammar
@@ -66,16 +62,14 @@ mv %{buildroot}%{_bindir}/yacc %{buildroot}%{_bindir}/yacc.bison
 
 %find_lang %{name}
 %find_lang %{name}-runtime
-cat %name-runtime.lang >> %name.lang
+cat %{name}-runtime.lang >> %{name}.lang
 
 rm -f %{buildroot}%{_mandir}/man1/yacc.1
 
 %post
-%_install_info %{name}.info
 %{_sbindir}/update-alternatives --install %{_bindir}/yacc yacc %{_bindir}/yacc.bison 10
 
 %preun
-%_remove_install_info %{name}.info
 if [ $1 -eq 0 ]; then
   %{_sbindir}/update-alternatives --remove yacc %{_bindir}/yacc.bison
 fi
@@ -87,7 +81,6 @@ fi
 rm -rf %{buildroot}
 
 %files -f %{name}.lang
-%defattr(-,root,root)
 %doc COPYING NEWS README
 %{_bindir}/*
 %dir %{_datadir}/bison
@@ -97,5 +90,4 @@ rm -rf %{buildroot}
 %{_mandir}/man1/*
 
 %files -n %{staticdevelname}
-%defattr(-,root,root)
 %{_libdir}/liby.a
