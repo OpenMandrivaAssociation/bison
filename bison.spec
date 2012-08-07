@@ -36,12 +36,13 @@ since it is used to build many C programs.
 
 %build
 %configure2_5x \
-	--disable-static
+	--disable-rpath \
+	--enable-threads
 
 %make
 
 %check
-%make check
+make check
 
 %install
 %makeinstall_std
@@ -54,6 +55,9 @@ mv %{buildroot}%{_bindir}/yacc %{buildroot}%{_bindir}/yacc.bison
 cat %{name}-runtime.lang >> %{name}.lang
 
 rm -f %{buildroot}%{_mandir}/man1/yacc.1
+
+# (tpg) this is not needed at all
+rm -rf %{buildroot}%{_libdir}/liby.a
 
 %post
 %{_sbindir}/update-alternatives --install %{_bindir}/yacc yacc %{_bindir}/yacc.bison 10
