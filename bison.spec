@@ -2,7 +2,7 @@
 
 Summary:	A GNU general-purpose parser generator
 Name:		bison
-Version:	2.6.1
+Version:	2.6.2
 Release:	1
 License:	GPL
 Group:		Development/Other
@@ -13,6 +13,7 @@ Patch0:		bison-1.32-extfix.patch
 Requires:	m4 >= 1.4
 BuildRequires:	help2man
 BuildRequires:	m4 >= 1.4
+Obsoletes:	%{mklibname bison -d -s} < 2.6.2
 
 %description
 Bison is a general purpose parser generator which converts a grammar
@@ -29,33 +30,20 @@ on systems that are used for development.
 If your system will be used for C development, you should install Bison
 since it is used to build many C programs.
 
-%package -n	%{staticdevelname}
-Summary:	Static development library for using Bison-generated parsers
-Group:		Development/C
-Requires:	bison = %{version}
-Provides:	bison-devel-static = %{version}
-
-%description -n	%{staticdevelname}
-This package contains the static -ly library sometimes used by programs using
-Bison-generated parsers. If you are developing programs using Bison, you might
-want to link with this library. This library is not required by all
-Bison-generated parsers, but may be employed by simple programs to supply
-minimal support for the generated parsers.
-
 %prep
 %setup -q
 %patch0 -p1 -b .extfix
 
 %build
-%configure2_5x
+%configure2_5x \
+	--disable-static
+
 %make
 
 %check
 %make check
 
 %install
-rm -rf %{buildroot}
-
 %makeinstall_std
 
 mv %{buildroot}%{_bindir}/yacc %{buildroot}%{_bindir}/yacc.bison
@@ -78,9 +66,6 @@ fi
 %triggerpostun -- byacc <= 1.9-16mdk
 %{_sbindir}/update-alternatives --install %{_bindir}/yacc yacc %{_bindir}/yacc.bison 10
 
-%clean
-rm -rf %{buildroot}
-
 %files -f %{name}.lang
 %doc COPYING NEWS README
 %{_bindir}/*
@@ -89,6 +74,3 @@ rm -rf %{buildroot}
 %{_datadir}/aclocal/*
 %{_infodir}/bison.info*
 %{_mandir}/man1/*
-
-%files -n %{staticdevelname}
-%{_libdir}/liby.a
