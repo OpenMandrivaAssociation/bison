@@ -8,7 +8,6 @@ License:	GPL
 Group:		Development/Other
 URL:		http://www.gnu.org/software/bison/bison.html
 Source0:	ftp://ftp.gnu.org/pub/gnu/bison/bison-%{version}.tar.xz
-Source1:	bison.rpmlintrc
 Patch0:		bison-1.32-extfix.patch
 Requires:	m4 >= 1.4
 BuildRequires:	help2man
