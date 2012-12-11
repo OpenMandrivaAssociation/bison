@@ -1,3 +1,4 @@
 sources:
   "bison-2.6.4.tar.xz:"	43c6a12a68710522f77e9d452407e633badebfb3
   "bison.rpmlintrc:"	556b0297c1639a3c4ce385ac4f1f2a507121423b
+  bison-2.6.5.tar.xz: eaa806c062973577c683ddf446dea2d9d02ac04c
