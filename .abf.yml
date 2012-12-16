@@ -1,4 +1,3 @@
 ---
 sources:
-  "bison-2.6.4.tar.xz:"	43c6a12a68710522f77e9d452407e633badebfb3
-  "bison-2.6.5.tar.xz:" eaa806c062973577c683ddf446dea2d9d02ac04c
+  bison-2.7.tar.xz: 245467c56663ec80fc3e80c38cc1ff18c59d7ecc
