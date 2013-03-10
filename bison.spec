@@ -1,10 +1,8 @@
-%define staticdevelname %mklibname bison -d -s
-
 Summary:	A GNU general-purpose parser generator
 Name:		bison
 Version:	2.7
 Release:	2
-License:	GPL
+License:	GPLv3
 Group:		Development/Other
 Url:		http://www.gnu.org/software/bison/bison.html
 Source0:	ftp://ftp.gnu.org/pub/gnu/bison/bison-%{version}.tar.xz
@@ -47,15 +45,16 @@ make check
 %makeinstall_std
 
 mv %{buildroot}%{_bindir}/yacc %{buildroot}%{_bindir}/yacc.bison
+mv %{buildroot}%{_mandir}/man1/yacc.1 %{buildroot}%{_mandir}/man1/yacc.bison.1
 
 %find_lang %{name}
 %find_lang %{name}-runtime
 cat %{name}-runtime.lang >> %{name}.lang
 
-rm -f %{buildroot}%{_mandir}/man1/yacc.1
 
 # (tpg) this is not needed at all
 rm -rf %{buildroot}%{_libdir}/liby.a
+rm -rf %{buildroot}%{_datadir}/%{name}/*.{c,cc}
 
 %post
 %{_sbindir}/update-alternatives --install %{_bindir}/yacc yacc %{_bindir}/yacc.bison 10
@@ -73,3 +72,4 @@ fi
 %{_datadir}/aclocal/*
 %{_infodir}/bison.info*
 %{_mandir}/man1/*
+
