@@ -6,12 +6,12 @@ Version:	2.7
 Release:	2
 License:	GPL
 Group:		Development/Other
-URL:		http://www.gnu.org/software/bison/bison.html
+Url:		http://www.gnu.org/software/bison/bison.html
 Source0:	ftp://ftp.gnu.org/pub/gnu/bison/bison-%{version}.tar.xz
 Patch0:		bison-1.32-extfix.patch
-Requires:	m4 >= 1.4
 BuildRequires:	help2man
 BuildRequires:	m4 >= 1.4
+Requires:	m4 >= 1.4
 Obsoletes:	%{mklibname bison -d -s} < 2.6.2
 
 %description
@@ -48,7 +48,6 @@ make check
 
 mv %{buildroot}%{_bindir}/yacc %{buildroot}%{_bindir}/yacc.bison
 
-
 %find_lang %{name}
 %find_lang %{name}-runtime
 cat %{name}-runtime.lang >> %{name}.lang
@@ -65,9 +64,6 @@ rm -rf %{buildroot}%{_libdir}/liby.a
 if [ $1 -eq 0 ]; then
   %{_sbindir}/update-alternatives --remove yacc %{_bindir}/yacc.bison
 fi
-
-%triggerpostun -- byacc <= 1.9-16mdk
-%{_sbindir}/update-alternatives --install %{_bindir}/yacc yacc %{_bindir}/yacc.bison 10
 
 %files -f %{name}.lang
 %doc COPYING NEWS README
