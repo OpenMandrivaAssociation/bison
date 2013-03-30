@@ -1,0 +1,4 @@
+# bison packages, and needs to package, skeleton files in
+# /usr/share/bison (actually used) and liby.a (not used
+# a lot, but mandated by POSIX.2)
+addFilter("W: devel-file-in-non-devel-package")
