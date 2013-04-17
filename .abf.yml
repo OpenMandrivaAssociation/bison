@@ -1,3 +1,4 @@
----
-sources:
+removed_sources:
   bison-2.7.tar.xz: 245467c56663ec80fc3e80c38cc1ff18c59d7ecc
+sources:
+  bison-2.7.1.tar.xz: 00ab1b32d864622077c311e4f5420d4e2931fdc8

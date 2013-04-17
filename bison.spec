@@ -1,7 +1,7 @@
 Summary:	A GNU general-purpose parser generator
 Name:		bison
-Version:	2.7
-Release:	3
+Version:	2.7.1
+Release:	1
 License:	GPLv3
 Group:		Development/Other
 Url:		http://www.gnu.org/software/bison/bison.html
@@ -12,6 +12,13 @@ BuildRequires:	help2man
 BuildRequires:	m4 >= 1.4
 Requires:	m4 >= 1.4
 Obsoletes:	%{mklibname bison -d -s} < 2.6.2
+
+%track
+prog %name = {
+	url = http://ftp.gnu.org/gnu/bison/
+	version = %version
+	regex = %name-(__VER__)\.tar\.xz
+}
 
 %description
 Bison is a general purpose parser generator which converts a grammar
