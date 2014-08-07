@@ -8,6 +8,7 @@ Url:		http://www.gnu.org/software/bison/bison.html
 Source0:	ftp://ftp.gnu.org/pub/gnu/bison/bison-%{version}.tar.xz
 Source100:	%name.rpmlintrc
 Patch0:		bison-1.32-extfix.patch
+BuildRequires:	flex
 BuildRequires:	help2man
 BuildRequires:	m4 >= 1.4
 Requires:	m4 >= 1.4
@@ -40,7 +41,7 @@ since it is used to build many C programs.
 %patch0 -p1 -b .extfix
 
 %build
-%configure2_5x \
+%configure \
 	--disable-rpath \
 	--enable-threads
 
