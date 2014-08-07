@@ -8,9 +8,11 @@ Url:		http://www.gnu.org/software/bison/bison.html
 Source0:	ftp://ftp.gnu.org/pub/gnu/bison/bison-%{version}.tar.xz
 Source100:	%name.rpmlintrc
 Patch0:		bison-1.32-extfix.patch
-BuildRequires:	flex
 BuildRequires:	help2man
 BuildRequires:	m4 >= 1.4
+# needed for tests
+BuildRequires:	autoconf
+BuildRequires:	flex
 Requires:	m4 >= 1.4
 Obsoletes:	%{mklibname bison -d -s} < 2.6.2
 
