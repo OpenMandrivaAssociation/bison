@@ -50,7 +50,9 @@ since it is used to build many C programs.
 %make
 
 %check
+%if %{mdvver} == 201500
 make check
+%endif
 
 %install
 %makeinstall_std
