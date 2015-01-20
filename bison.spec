@@ -1,12 +1,12 @@
 Summary:	A GNU general-purpose parser generator
 Name:		bison
-Version:	3.0.2
-Release:	8
+Version:	3.0.3
+Release:	1
 License:	GPLv3
 Group:		Development/Other
 Url:		http://www.gnu.org/software/bison/bison.html
 Source0:	ftp://ftp.gnu.org/pub/gnu/bison/bison-%{version}.tar.xz
-Source100:	%name.rpmlintrc
+Source100:	%{name}.rpmlintrc
 Patch0:		bison-1.32-extfix.patch
 BuildRequires:	help2man
 BuildRequires:	m4 >= 1.4
