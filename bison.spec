@@ -1,3 +1,5 @@
+%define _disable_rebuild_configure 1
+
 Summary:	A GNU general-purpose parser generator
 Name:		bison
 Version:	3.0.4
