@@ -1,0 +1,36 @@
+--- bison-3.0.4/data/c.m4.omv~	2017-04-30 00:48:04.361647642 +0200
++++ bison-3.0.4/data/c.m4	2017-04-30 00:48:15.810784566 +0200
+@@ -243,6 +243,7 @@ m4_define([b4_attribute_define],
+ #endif
+ 
+ #if defined __GNUC__ && 407 <= __GNUC__ * 100 + __GNUC_MINOR__
++#ifndef __clang__
+ /* Suppress an incorrect diagnostic about yylval being uninitialized.  */
+ # define YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN \
+     _Pragma ("GCC diagnostic push") \
+@@ -250,6 +251,7 @@ m4_define([b4_attribute_define],
+     _Pragma ("GCC diagnostic ignored \"-Wmaybe-uninitialized\"")
+ # define YY_IGNORE_MAYBE_UNINITIALIZED_END \
+     _Pragma ("GCC diagnostic pop")
++#endif
+ #else
+ # define YY_INITIAL_VALUE(Value) Value
+ #endif
+--- bison-3.0.4/src/parse-gram.c.omv~	2017-04-30 00:47:15.471056651 +0200
++++ bison-3.0.4/src/parse-gram.c	2017-04-30 00:47:37.607325530 +0200
+@@ -429,6 +429,7 @@ typedef short int yytype_int16;
+ #endif
+ 
+ #if defined __GNUC__ && 407 <= __GNUC__ * 100 + __GNUC_MINOR__
++#ifndef __clang__
+ /* Suppress an incorrect diagnostic about yylval being uninitialized.  */
+ # define YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN \
+     _Pragma ("GCC diagnostic push") \
+@@ -436,6 +437,7 @@ typedef short int yytype_int16;
+     _Pragma ("GCC diagnostic ignored \"-Wmaybe-uninitialized\"")
+ # define YY_IGNORE_MAYBE_UNINITIALIZED_END \
+     _Pragma ("GCC diagnostic pop")
++#endif
+ #else
+ # define YY_INITIAL_VALUE(Value) Value
+ #endif
