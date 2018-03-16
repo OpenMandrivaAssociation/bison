@@ -19,13 +19,6 @@ BuildRequires:	flex
 Requires:	m4 >= 1.4
 Obsoletes:	%{mklibname bison -d -s} < 2.6.2
 
-%track
-prog %name = {
-	url = http://ftp.gnu.org/gnu/bison/
-	version = %version
-	regex = %name-(__VER__)\.tar\.xz
-}
-
 %description
 Bison is a general purpose parser generator which converts a grammar
 description for an LALR context-free grammar into a C program to parse
