@@ -36,14 +36,14 @@ since it is used to build many C programs.
 
 %prep
 %setup -q
-%apply_patches
+%autopatch -p1
 
 %build
 %configure \
 	--disable-rpath \
 	--enable-threads
 
-%make
+%make_build
 
 %if %{mdvver} != 201500
 %check
@@ -51,7 +51,7 @@ make check
 %endif
 
 %install
-%makeinstall_std
+%make_install
 
 mv %{buildroot}%{_bindir}/yacc %{buildroot}%{_bindir}/yacc.bison
 mv %{buildroot}%{_mandir}/man1/yacc.1 %{buildroot}%{_mandir}/man1/yacc.bison.1
@@ -69,12 +69,12 @@ if [ $1 -eq 0 ]; then
 fi
 
 %files -f %{name}.lang
-%doc COPYING NEWS README
-%_bindir/*
-%dir %_datadir/bison
-%_datadir/bison/*
-%_datadir/aclocal/*
-%_infodir/bison.info*
-%_mandir/man1/*
+%doc %{_docdir}/%{name}
+%{_bindir}/*
+%dir %{_datadir}/bison
+%{_datadir}/bison/*
+%{_datadir}/aclocal/*
+%{_infodir}/bison.info*
+%{_mandir}/man1/*
 # Not very useful, but mandated by POSIX.2
-%_libdir/liby.a
+%{_libdir}/liby.a
