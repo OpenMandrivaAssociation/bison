@@ -2,8 +2,8 @@
 
 Summary:	A GNU general-purpose parser generator
 Name:		bison
-Version:	3.0.4
-Release:	4
+Version:	3.0.5
+Release:	1
 License:	GPLv3
 Group:		Development/Other
 Url:		http://www.gnu.org/software/bison/bison.html
@@ -17,6 +17,7 @@ BuildRequires:	m4 >= 1.4
 BuildRequires:	autoconf
 BuildRequires:	flex
 Requires:	m4 >= 1.4
+Requires(post,preun):	chkconfig
 Obsoletes:	%{mklibname bison -d -s} < 2.6.2
 
 %description
