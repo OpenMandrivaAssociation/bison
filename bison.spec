@@ -1,4 +1,5 @@
 %define _disable_rebuild_configure 1
+%global optflags %{optflags} --rtlib=compiler-rt
 
 Summary:	A GNU general-purpose parser generator
 Name:		bison
