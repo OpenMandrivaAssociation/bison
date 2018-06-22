@@ -1,0 +1,98 @@
+diff -Naur bison-3.0.5/configure.ac bison-3.0.5.tpg/configure.ac
+--- bison-3.0.5/configure.ac	2018-05-27 08:03:39.000000000 +0000
++++ bison-3.0.5.tpg/configure.ac	2018-06-22 15:28:28.768706806 +0000
+@@ -56,6 +56,18 @@
+ # Gnulib (early checks).
+ gl_EARLY
+ 
++AC_CACHE_CHECK([for gcc 7-compatible __builtin_mul_overflow_p],
++  [utils_cv_builtin_mul_overflow_p],
++  [AC_COMPILE_IFELSE(
++    [AC_LANG_PROGRAM(
++      [[]],
++      [[return __builtin_mul_overflow_p(1, 2, 3);]])],
++    [utils_cv_builtin_mul_overflow_p=yes],
++    [utils_cv_builtin_mul_overflow_p=no])])
++if test $utils_cv_builtin_mul_overflow_p = yes; then
++  AC_DEFINE([HAVE_BUILTIN_MUL_OVERFLOW_P], [1], [Define if your compiler supports __builtin_mul_overflow_p])
++fi
++
+ # Gnulib uses '#pragma GCC diagnostic push' to silence some
+ # warnings, but older gcc doesn't support this.
+ AC_CACHE_CHECK([whether pragma GCC diagnostic push works],
+diff -Naur bison-3.0.5/lib/intprops.h bison-3.0.5.tpg/lib/intprops.h
+--- bison-3.0.5/lib/intprops.h	2018-05-08 10:04:17.000000000 +0000
++++ bison-3.0.5.tpg/lib/intprops.h	2018-06-22 15:30:55.509697197 +0000
+@@ -225,14 +225,11 @@
+ # define _GL_HAS_BUILTIN_OVERFLOW 0
+ #endif
+ 
+-/* True if __builtin_add_overflow_p (A, B, C) works.  */
+-#define _GL_HAS_BUILTIN_OVERFLOW_P (7 <= __GNUC__)
+-
+ /* The _GL*_OVERFLOW macros have the same restrictions as the
+    *_RANGE_OVERFLOW macros, except that they do not assume that operands
+    (e.g., A and B) have the same type as MIN and MAX.  Instead, they assume
+    that the result (e.g., A + B) has that type.  */
+-#if _GL_HAS_BUILTIN_OVERFLOW_P
++#ifdef HAVE_BUILTIN_MUL_OVERFLOW_P
+ # define _GL_ADD_OVERFLOW(a, b, min, max)                               \
+    __builtin_add_overflow_p (a, b, (__typeof__ ((a) + (b))) 0)
+ # define _GL_SUBTRACT_OVERFLOW(a, b, min, max)                          \
+@@ -318,7 +315,7 @@
+   _GL_BINARY_OP_OVERFLOW (a, b, _GL_ADD_OVERFLOW)
+ #define INT_SUBTRACT_OVERFLOW(a, b) \
+   _GL_BINARY_OP_OVERFLOW (a, b, _GL_SUBTRACT_OVERFLOW)
+-#if _GL_HAS_BUILTIN_OVERFLOW_P
++#ifdef HAVE_BUILTIN_MUL_OVERFLOW_P
+ # define INT_NEGATE_OVERFLOW(a) INT_SUBTRACT_OVERFLOW (0, a)
+ #else
+ # define INT_NEGATE_OVERFLOW(a) \
+diff -Naur bison-3.0.5/lib/mbrtowc.c bison-3.0.5.tpg/lib/mbrtowc.c
+--- bison-3.0.5/lib/mbrtowc.c	2018-05-08 10:02:48.000000000 +0000
++++ bison-3.0.5.tpg/lib/mbrtowc.c	2018-06-22 15:31:40.798694231 +0000
+@@ -36,7 +36,7 @@
+ # include "verify.h"
+ 
+ #ifndef FALLTHROUGH
+-# if __GNUC__ < 7
++# if __GNUC__ < 7 || !__has_attribute(__fallthrough__)
+ #  define FALLTHROUGH ((void) 0)
+ # else
+ #  define FALLTHROUGH __attribute__ ((__fallthrough__))
+diff -Naur bison-3.0.5/lib/quotearg.c bison-3.0.5.tpg/lib/quotearg.c
+--- bison-3.0.5/lib/quotearg.c	2018-05-08 10:02:49.000000000 +0000
++++ bison-3.0.5.tpg/lib/quotearg.c	2018-06-22 15:32:05.578692609 +0000
+@@ -55,7 +55,7 @@
+ #define INT_BITS (sizeof (int) * CHAR_BIT)
+ 
+ #ifndef FALLTHROUGH
+-# if __GNUC__ < 7
++# if __GNUC__ < 7 || !__has_attribute(__fallthrough__)
+ #  define FALLTHROUGH ((void) 0)
+ # else
+ #  define FALLTHROUGH __attribute__ ((__fallthrough__))
+diff -Naur bison-3.0.5/lib/vasnprintf.c bison-3.0.5.tpg/lib/vasnprintf.c
+--- bison-3.0.5/lib/vasnprintf.c	2018-05-08 10:04:20.000000000 +0000
++++ bison-3.0.5.tpg/lib/vasnprintf.c	2018-06-22 15:32:26.084691266 +0000
+@@ -119,7 +119,7 @@
+ #endif
+ 
+ #ifndef FALLTHROUGH
+-# if __GNUC__ < 7
++# if __GNUC__ < 7 || !__has_attribute(__fallthrough__)
+ #  define FALLTHROUGH ((void) 0)
+ # else
+ #  define FALLTHROUGH __attribute__ ((__fallthrough__))
+diff -Naur bison-3.0.5/lib/xalloc-oversized.h bison-3.0.5.tpg/lib/xalloc-oversized.h
+--- bison-3.0.5/lib/xalloc-oversized.h	2018-05-08 10:02:49.000000000 +0000
++++ bison-3.0.5.tpg/lib/xalloc-oversized.h	2018-06-22 15:29:24.104703182 +0000
+@@ -41,7 +41,7 @@
+    positive and N must be nonnegative.  This is a macro, not a
+    function, so that it works correctly even when SIZE_MAX < N.  */
+ 
+-#if 7 <= __GNUC__
++#ifdef HAVE_BUILTIN_MUL_OVERFLOW_P
+ # define xalloc_oversized(n, s) \
+    __builtin_mul_overflow_p (n, s, (__xalloc_count_type) 1)
+ #elif 5 <= __GNUC__ && !defined __ICC && !__STRICT_ANSI__
