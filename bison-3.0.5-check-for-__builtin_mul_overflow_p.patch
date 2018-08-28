@@ -1,7 +1,7 @@
-diff -Naur bison-3.0.5/configure.ac bison-3.0.5.tpg/configure.ac
---- bison-3.0.5/configure.ac	2018-05-27 08:03:39.000000000 +0000
-+++ bison-3.0.5.tpg/configure.ac	2018-06-22 15:28:28.768706806 +0000
-@@ -56,6 +56,18 @@
+diff -up bison-3.1/configure.ac.3~ bison-3.1/configure.ac
+--- bison-3.1/configure.ac.3~	2018-08-25 10:55:03.000000000 +0200
++++ bison-3.1/configure.ac	2018-08-28 03:06:13.218991176 +0200
+@@ -56,6 +56,18 @@ AC_PROG_CXX
  # Gnulib (early checks).
  gl_EARLY
  
@@ -20,9 +20,9 @@ diff -Naur bison-3.0.5/configure.ac bison-3.0.5.tpg/configure.ac
  # Gnulib uses '#pragma GCC diagnostic push' to silence some
  # warnings, but older gcc doesn't support this.
  AC_CACHE_CHECK([whether pragma GCC diagnostic push works],
-diff -Naur bison-3.0.5/lib/intprops.h bison-3.0.5.tpg/lib/intprops.h
---- bison-3.0.5/lib/intprops.h	2018-05-08 10:04:17.000000000 +0000
-+++ bison-3.0.5.tpg/lib/intprops.h	2018-06-22 15:30:55.509697197 +0000
+diff -up bison-3.1/lib/intprops.h.3~ bison-3.1/lib/intprops.h
+--- bison-3.1/lib/intprops.h.3~	2018-05-08 12:04:17.000000000 +0200
++++ bison-3.1/lib/intprops.h	2018-08-28 03:06:13.219991179 +0200
 @@ -225,14 +225,11 @@
  # define _GL_HAS_BUILTIN_OVERFLOW 0
  #endif
@@ -48,21 +48,21 @@ diff -Naur bison-3.0.5/lib/intprops.h bison-3.0.5.tpg/lib/intprops.h
  # define INT_NEGATE_OVERFLOW(a) INT_SUBTRACT_OVERFLOW (0, a)
  #else
  # define INT_NEGATE_OVERFLOW(a) \
-diff -Naur bison-3.0.5/lib/mbrtowc.c bison-3.0.5.tpg/lib/mbrtowc.c
---- bison-3.0.5/lib/mbrtowc.c	2018-05-08 10:02:48.000000000 +0000
-+++ bison-3.0.5.tpg/lib/mbrtowc.c	2018-06-22 15:31:40.798694231 +0000
+diff -up bison-3.1/lib/mbrtowc.c.3~ bison-3.1/lib/mbrtowc.c
+--- bison-3.1/lib/mbrtowc.c.3~	2018-08-28 03:06:13.219991179 +0200
++++ bison-3.1/lib/mbrtowc.c	2018-08-28 03:06:38.130079217 +0200
 @@ -36,7 +36,7 @@
  # include "verify.h"
  
- #ifndef FALLTHROUGH
--# if __GNUC__ < 7
-+# if __GNUC__ < 7 || !__has_attribute(__fallthrough__)
- #  define FALLTHROUGH ((void) 0)
- # else
- #  define FALLTHROUGH __attribute__ ((__fallthrough__))
-diff -Naur bison-3.0.5/lib/quotearg.c bison-3.0.5.tpg/lib/quotearg.c
---- bison-3.0.5/lib/quotearg.c	2018-05-08 10:02:49.000000000 +0000
-+++ bison-3.0.5.tpg/lib/quotearg.c	2018-06-22 15:32:05.578692609 +0000
+ # ifndef FALLTHROUGH
+-#  if __GNUC__ < 7
++#  if __GNUC__ < 7 || !__has_attribute(__fallthrough__)
+ #   define FALLTHROUGH ((void) 0)
+ #  else
+ #   define FALLTHROUGH __attribute__ ((__fallthrough__))
+diff -up bison-3.1/lib/quotearg.c.3~ bison-3.1/lib/quotearg.c
+--- bison-3.1/lib/quotearg.c.3~	2018-05-08 12:02:49.000000000 +0200
++++ bison-3.1/lib/quotearg.c	2018-08-28 03:06:13.219991179 +0200
 @@ -55,7 +55,7 @@
  #define INT_BITS (sizeof (int) * CHAR_BIT)
  
@@ -72,9 +72,9 @@ diff -Naur bison-3.0.5/lib/quotearg.c bison-3.0.5.tpg/lib/quotearg.c
  #  define FALLTHROUGH ((void) 0)
  # else
  #  define FALLTHROUGH __attribute__ ((__fallthrough__))
-diff -Naur bison-3.0.5/lib/vasnprintf.c bison-3.0.5.tpg/lib/vasnprintf.c
---- bison-3.0.5/lib/vasnprintf.c	2018-05-08 10:04:20.000000000 +0000
-+++ bison-3.0.5.tpg/lib/vasnprintf.c	2018-06-22 15:32:26.084691266 +0000
+diff -up bison-3.1/lib/vasnprintf.c.3~ bison-3.1/lib/vasnprintf.c
+--- bison-3.1/lib/vasnprintf.c.3~	2018-05-08 12:04:20.000000000 +0200
++++ bison-3.1/lib/vasnprintf.c	2018-08-28 03:06:13.220991183 +0200
 @@ -119,7 +119,7 @@
  #endif
  
@@ -84,10 +84,10 @@ diff -Naur bison-3.0.5/lib/vasnprintf.c bison-3.0.5.tpg/lib/vasnprintf.c
  #  define FALLTHROUGH ((void) 0)
  # else
  #  define FALLTHROUGH __attribute__ ((__fallthrough__))
-diff -Naur bison-3.0.5/lib/xalloc-oversized.h bison-3.0.5.tpg/lib/xalloc-oversized.h
---- bison-3.0.5/lib/xalloc-oversized.h	2018-05-08 10:02:49.000000000 +0000
-+++ bison-3.0.5.tpg/lib/xalloc-oversized.h	2018-06-22 15:29:24.104703182 +0000
-@@ -41,7 +41,7 @@
+diff -up bison-3.1/lib/xalloc-oversized.h.3~ bison-3.1/lib/xalloc-oversized.h
+--- bison-3.1/lib/xalloc-oversized.h.3~	2018-05-08 12:02:49.000000000 +0200
++++ bison-3.1/lib/xalloc-oversized.h	2018-08-28 03:06:13.220991183 +0200
+@@ -41,7 +41,7 @@ typedef size_t __xalloc_count_type;
     positive and N must be nonnegative.  This is a macro, not a
     function, so that it works correctly even when SIZE_MAX < N.  */
  
