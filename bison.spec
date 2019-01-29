@@ -11,7 +11,7 @@ Url:		http://www.gnu.org/software/bison/bison.html
 Source0:	ftp://ftp.gnu.org/pub/gnu/bison/bison-%{version}.tar.xz
 Source100:	%{name}.rpmlintrc
 Patch0:		bison-1.32-extfix.patch
-Patch1:		bison-3.0.4-clang.patch
+#Patch1:		bison-3.0.4-clang.patch
 Patch2:		bison-3.0.5-check-for-__builtin_mul_overflow_p.patch
 BuildRequires:	help2man
 BuildRequires:	m4 >= 1.4
