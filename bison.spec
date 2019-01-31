@@ -4,14 +4,14 @@
 Summary:	A GNU general-purpose parser generator
 Name:		bison
 Version:	3.3.1
-Release:	1
+Release:	2
 License:	GPLv3
 Group:		Development/Other
 Url:		http://www.gnu.org/software/bison/bison.html
 Source0:	ftp://ftp.gnu.org/pub/gnu/bison/bison-%{version}.tar.xz
 Source100:	%{name}.rpmlintrc
 Patch0:		bison-1.32-extfix.patch
-#Patch1:		bison-3.0.4-clang.patch
+Patch1:		bison-3.3.1-clang.patch
 Patch2:		bison-3.0.5-check-for-__builtin_mul_overflow_p.patch
 BuildRequires:	help2man
 BuildRequires:	m4 >= 1.4
@@ -48,10 +48,8 @@ since it is used to build many C programs.
 
 %make_build
 
-%if %{mdvver} != 201500
 %check
 make check
-%endif
 
 %install
 %make_install

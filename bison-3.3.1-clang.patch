@@ -1,6 +1,6 @@
 diff -up bison-3.2.1/data/c.m4.2~ bison-3.2.1/data/c.m4
---- bison-3.2.1/data/c.m4.2~	2018-11-07 08:16:09.000000000 +0100
-+++ bison-3.2.1/data/c.m4	2018-11-15 19:43:56.248635315 +0100
+--- bison-3.2.1/data/skeletons/c.m4.2~	2018-11-07 08:16:09.000000000 +0100
++++ bison-3.2.1/data/skeletons/c.m4	2018-11-15 19:43:56.248635315 +0100
 @@ -251,6 +251,7 @@ m4_define([b4_attribute_define],
  #endif
  
