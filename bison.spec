@@ -17,6 +17,7 @@ Patch1:		bison-3.3.1-clang.patch
 Patch2:		bison-3.0.5-check-for-__builtin_mul_overflow_p.patch
 BuildRequires:	help2man
 BuildRequires:	m4 >= 1.4
+BuildRequires:	perl-Locale-gettext
 # needed for tests
 BuildRequires:	autoconf
 BuildRequires:	flex
