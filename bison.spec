@@ -1,6 +1,6 @@
 %define _disable_rebuild_configure 1
 %ifnarch riscv64
-%global optflags %{optflags} --rtlib=compiler-rt
+%global optflags %{optflags} -O3 --rtlib=compiler-rt
 %endif
 
 Summary:	A GNU general-purpose parser generator
