@@ -63,7 +63,9 @@ mv %{buildroot}%{_mandir}/man1/yacc.1 %{buildroot}%{_mandir}/man1/yacc.bison.1
 
 %find_lang %{name}
 %find_lang %{name}-runtime
+%find_lang %{name}-gnulib
 cat %{name}-runtime.lang >> %{name}.lang
+cat %{name}-gnulib.lang >> %{name}.lang
 
 %post
 %{_sbindir}/update-alternatives --install %{_bindir}/yacc yacc %{_bindir}/yacc.bison 10
