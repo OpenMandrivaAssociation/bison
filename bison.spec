@@ -3,6 +3,13 @@
 %global optflags %{optflags} -O3 --rtlib=compiler-rt
 %endif
 
+# (tpg) enable PGO build
+%ifnarch riscv64
+%bcond_without pgo
+%else
+%bcond_with pgo
+%endif
+
 Summary:	A GNU general-purpose parser generator
 Name:		bison
 Version:	3.4.2
@@ -41,10 +48,35 @@ If your system will be used for C development, you should install Bison
 since it is used to build many C programs.
 
 %prep
-%setup -q
-%autopatch -p1
+%autosetup -p1
 
 %build
+%if %{with pgo}
+CFLAGS="%{optflags} -fprofile-instr-generate"
+CXXFLAGS="%{optflags} -fprofile-instr-generate"
+FFLAGS="$CFLAGS"
+FCFLAGS="$CFLAGS"
+LDFLAGS="%{ldflags} -fprofile-instr-generate"
+export LLVM_PROFILE_FILE=%{name}-%p.profile.d
+export LD_LIBRARY_PATH="$(pwd)"
+
+%configure \
+	--disable-rpath \
+	--enable-threads
+
+%make_build
+
+make -j1 check
+unset LD_LIBRARY_PATH
+unset LLVM_PROFILE_FILE
+llvm-profdata merge --output=%{name}.profile *.profile.d
+rm -f *.profile.d
+make clean
+
+CFLAGS="%{optflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
+CXXFLAGS="%{optflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
+LDFLAGS="%{ldflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
+%endif
 %configure \
 	--disable-rpath \
 	--enable-threads
@@ -52,8 +84,8 @@ since it is used to build many C programs.
 %make_build
 
 # (tpg) 2019-05-26 disable for now
-#check
-#make check
+%check
+make -j1 check
 
 %install
 %make_install
