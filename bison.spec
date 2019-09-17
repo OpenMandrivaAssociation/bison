@@ -66,7 +66,7 @@ export LD_LIBRARY_PATH="$(pwd)"
 
 %make_build
 
-make -j1 check
+make -j1 check || cat tests/testsuite.log
 unset LD_LIBRARY_PATH
 unset LLVM_PROFILE_FILE
 llvm-profdata merge --output=%{name}.profile *.profile.d
