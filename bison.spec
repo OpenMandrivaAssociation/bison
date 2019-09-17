@@ -66,7 +66,8 @@ export LD_LIBRARY_PATH="$(pwd)"
 
 %make_build
 
-make -j1 check || cat tests/testsuite.log
+make -j1 check || cat tests/testsuite.log && exit 1
+
 unset LD_LIBRARY_PATH
 unset LLVM_PROFILE_FILE
 llvm-profdata merge --output=%{name}.profile *.profile.d
@@ -85,7 +86,7 @@ LDFLAGS="%{ldflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
 
 # (tpg) 2019-05-26 disable for now
 %check
-make -j1 check
+make -j1 check || cat tests/testsuite.log && exit 1
 
 %install
 %make_install
