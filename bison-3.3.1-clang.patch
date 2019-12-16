@@ -1,36 +1,36 @@
-diff -up bison-3.2.1/data/c.m4.2~ bison-3.2.1/data/c.m4
---- bison-3.2.1/data/skeletons/c.m4.2~	2018-11-07 08:16:09.000000000 +0100
-+++ bison-3.2.1/data/skeletons/c.m4	2018-11-15 19:43:56.248635315 +0100
-@@ -251,6 +251,7 @@ m4_define([b4_attribute_define],
+diff -Naur bison-3.5/data/skeletons/c.m4 bison-3.5.tpg/data/skeletons/c.m4
+--- bison-3.5/data/skeletons/c.m4	2019-12-06 07:27:55.000000000 +0000
++++ bison-3.5.tpg/data/skeletons/c.m4	2019-12-16 10:57:31.569004668 +0000
+@@ -326,6 +326,7 @@
  #endif
  
  #if defined __GNUC__ && ! defined __ICC && 407 <= __GNUC__ * 100 + __GNUC_MINOR__
 +#ifndef __clang__
  /* Suppress an incorrect diagnostic about yylval being uninitialized.  */
- # define YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN \
-     _Pragma ("GCC diagnostic push") \
-@@ -258,6 +259,7 @@ m4_define([b4_attribute_define],
+ # define YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN                            \
+     _Pragma ("GCC diagnostic push")                                     \
+@@ -333,6 +334,7 @@
      _Pragma ("GCC diagnostic ignored \"-Wmaybe-uninitialized\"")
- # define YY_IGNORE_MAYBE_UNINITIALIZED_END \
+ # define YY_IGNORE_MAYBE_UNINITIALIZED_END      \
      _Pragma ("GCC diagnostic pop")
 +#endif
  #else
  # define YY_INITIAL_VALUE(Value) Value
  #endif
-diff -up bison-3.2.1/src/parse-gram.c.2~ bison-3.2.1/src/parse-gram.c
---- bison-3.2.1/src/parse-gram.c.2~	2018-11-09 06:15:03.000000000 +0100
-+++ bison-3.2.1/src/parse-gram.c	2018-11-15 19:44:58.383043967 +0100
-@@ -423,6 +423,7 @@ typedef short yytype_int16;
+diff -Naur bison-3.5/src/parse-gram.c bison-3.5.tpg/src/parse-gram.c
+--- bison-3.5/src/parse-gram.c	2019-12-11 06:57:34.000000000 +0000
++++ bison-3.5.tpg/src/parse-gram.c	2019-12-16 10:58:27.332004997 +0000
+@@ -352,6 +352,7 @@
  #endif
  
  #if defined __GNUC__ && ! defined __ICC && 407 <= __GNUC__ * 100 + __GNUC_MINOR__
 +#ifndef __clang__
  /* Suppress an incorrect diagnostic about yylval being uninitialized.  */
- # define YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN \
-     _Pragma ("GCC diagnostic push") \
-@@ -430,6 +431,7 @@ typedef short yytype_int16;
+ # define YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN                            \
+     _Pragma ("GCC diagnostic push")                                     \
+@@ -359,6 +360,7 @@
      _Pragma ("GCC diagnostic ignored \"-Wmaybe-uninitialized\"")
- # define YY_IGNORE_MAYBE_UNINITIALIZED_END \
+ # define YY_IGNORE_MAYBE_UNINITIALIZED_END      \
      _Pragma ("GCC diagnostic pop")
 +#endif
  #else
