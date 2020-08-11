@@ -64,7 +64,7 @@ export LD_LIBRARY_PATH="$(pwd)"
 
 %configure \
 	--disable-rpath \
-	--enable-threads || cat config.log && exit 1
+	--enable-threads
 
 %make_build
 
