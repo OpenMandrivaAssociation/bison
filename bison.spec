@@ -3,7 +3,7 @@
 
 %define _disable_rebuild_configure 1
 %ifnarch riscv64
-%global optflags %{optflags} -O3 --rtlib=compiler-rt
+%global optflags %{optflags} -O3
 %endif
 
 # (tpg) enable PGO build
