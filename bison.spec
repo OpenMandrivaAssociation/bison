@@ -15,7 +15,7 @@
 
 Summary:	A GNU general-purpose parser generator
 Name:		bison
-Version:	3.7
+Version:	3.7.1
 Release:	1
 License:	GPLv3
 Group:		Development/Other
