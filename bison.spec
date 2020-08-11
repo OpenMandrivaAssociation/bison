@@ -81,7 +81,7 @@ LDFLAGS="%{ldflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
 %endif
 %configure \
 	--disable-rpath \
-	--enable-threads
+	--enable-threads || cat config.log && exit 1
 
 %make_build
 
