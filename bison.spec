@@ -15,7 +15,7 @@
 
 Summary:	A GNU general-purpose parser generator
 Name:		bison
-Version:	3.7.2
+Version:	3.7.3
 Release:	1
 License:	GPLv3
 Group:		Development/Other
@@ -67,26 +67,29 @@ LDFLAGS="%{ldflags} -fprofile-instr-generate" \
 
 %make_build
 
-make -j1 check ||:
+%make_build check ||:
 
 unset LD_LIBRARY_PATH
 unset LLVM_PROFILE_FILE
 llvm-profdata merge --output=%{name}.profile *.profile.d
 rm -f *.profile.d
 make clean
-
-CFLAGS="%{optflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
-CXXFLAGS="%{optflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
-LDFLAGS="%{ldflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
+# We can't add -fprofile-instr-use= here because it breaks running
+# configure again (mismatching macros in early parts)
 %endif
 %configure \
 	--disable-rpath \
-	--enable-threads || cat config.log && exit 1
+	--enable-threads || (cat config.log && exit 1)
 
-%make_build
+%make_build \
+%if %{with pgo}
+	CFLAGS="%{optflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
+	CXXFLAGS="%{optflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
+	LDFLAGS="%{ldflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
+%endif
 
 %check
-make -j1 check ||:
+%make_build check ||:
 
 %install
 %make_install
