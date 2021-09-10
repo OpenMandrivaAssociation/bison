@@ -16,7 +16,7 @@
 Summary:	A GNU general-purpose parser generator
 Name:		bison
 Version:	3.7.6
-Release:	1
+Release:	2
 License:	GPLv3
 Group:		Development/Other
 Url:		http://www.gnu.org/software/bison/bison.html
@@ -117,7 +117,7 @@ fi
 %dir %{_datadir}/bison
 %{_datadir}/bison/*
 %{_datadir}/aclocal/*
-%{_infodir}/bison.info*
-%{_mandir}/man1/*
+%doc %{_infodir}/bison.info*
+%doc %{_mandir}/man1/*
 # Not very useful, but mandated by POSIX.2
 %{_libdir}/liby.a
