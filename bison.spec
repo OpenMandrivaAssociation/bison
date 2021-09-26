@@ -15,7 +15,7 @@
 
 Summary:	A GNU general-purpose parser generator
 Name:		bison
-Version:	3.8.1
+Version:	3.8.2
 Release:	1
 License:	GPLv3
 Group:		Development/Other
@@ -60,7 +60,7 @@ CFLAGS="%{optflags} -fprofile-instr-generate" \
 CXXFLAGS="%{optflags} -fprofile-instr-generate" \
 FFLAGS="$CFLAGS" \
 FCFLAGS="$CFLAGS" \
-LDFLAGS="%{ldflags} -fprofile-instr-generate" \
+LDFLAGS="%{build_ldflags} -fprofile-instr-generate" \
 %configure \
 	--disable-rpath \
 	--enable-threads
