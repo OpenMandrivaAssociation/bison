@@ -1,18 +1,6 @@
-diff -up bison-3.8.1/lib/config.in.h.omv~ bison-3.8.1/lib/config.in.h
---- bison-3.8.1/lib/config.in.h.omv~	2021-09-22 13:58:29.466443417 +0200
-+++ bison-3.8.1/lib/config.in.h	2021-09-22 13:59:05.719577885 +0200
-@@ -2075,7 +2075,7 @@
-    return pointers that can be freed via 'free'; it can be used
-    only after including stdlib.h.  These macros cannot be used on
-    inline functions.  */
--#if _GL_GNUC_PREREQ (11, 0)
-+#if _GL_GNUC_PREREQ (11, 0) && !defined(__clang__)
- # define _GL_ATTRIBUTE_DEALLOC(f, i) __attribute__ ((__malloc__ (f, i)))
- #else
- # define _GL_ATTRIBUTE_DEALLOC(f, i)
-diff -up bison-3.8.1/lib/cdefs.h.omv~ bison-3.8.1/lib/cdefs.h
---- bison-3.8.1/lib/cdefs.h.omv~	2021-09-22 14:02:00.036231997 +0200
-+++ bison-3.8.1/lib/cdefs.h	2021-09-22 14:02:09.482267749 +0200
+diff -up bison-3.8.2/lib/cdefs.h.2~ bison-3.8.2/lib/cdefs.h
+--- bison-3.8.2/lib/cdefs.h.2~	2021-08-12 09:27:08.000000000 +0200
++++ bison-3.8.2/lib/cdefs.h	2021-09-27 19:06:14.413201113 +0200
 @@ -615,7 +615,7 @@ _Static_assert (0, "IEEE 128-bits long d
  #  define __attr_access_none(argno)
  #endif
@@ -22,3 +10,15 @@ diff -up bison-3.8.1/lib/cdefs.h.omv~ bison-3.8.1/lib/cdefs.h
  /* Designates dealloc as a function to call to deallocate objects
     allocated by the declared function.  */
  # define __attr_dealloc(dealloc, argno) \
+diff -up bison-3.8.2/lib/config.in.h.2~ bison-3.8.2/lib/config.in.h
+--- bison-3.8.2/lib/config.in.h.2~	2021-09-27 19:06:14.413201113 +0200
++++ bison-3.8.2/lib/config.in.h	2021-09-27 19:06:33.923238870 +0200
+@@ -2097,7 +2097,7 @@
+    _GL_ATTRIBUTE_DEALLOC_FREE declares that the function returns pointers that
+    can be freed via 'free'; it can be used only after declaring 'free'.  */
+ /* Applies to: functions.  Cannot be used on inline functions.  */
+-#if _GL_GNUC_PREREQ (11, 0)
++#if _GL_GNUC_PREREQ (11, 0) && !defined(__clang__)
+ # define _GL_ATTRIBUTE_DEALLOC(f, i) __attribute__ ((__malloc__ (f, i)))
+ #else
+ # define _GL_ATTRIBUTE_DEALLOC(f, i)
