@@ -7,16 +7,12 @@
 %endif
 
 # (tpg) enable PGO build
-%ifnarch riscv64
 %bcond_without pgo
-%else
-%bcond_with pgo
-%endif
 
 Summary:	A GNU general-purpose parser generator
 Name:		bison
 Version:	3.8.2
-Release:	2
+Release:	3
 License:	GPLv3
 Group:		Development/Other
 Url:		http://www.gnu.org/software/bison/bison.html
@@ -54,13 +50,11 @@ since it is used to build many C programs.
 
 %build
 %if %{with pgo}
-export LLVM_PROFILE_FILE=%{name}-%p.profile.d
 export LD_LIBRARY_PATH="$(pwd)"
-CFLAGS="%{optflags} -fprofile-instr-generate" \
-CXXFLAGS="%{optflags} -fprofile-instr-generate" \
-FFLAGS="$CFLAGS" \
-FCFLAGS="$CFLAGS" \
-LDFLAGS="%{build_ldflags} -fprofile-instr-generate" \
+
+CFLAGS="%{optflags} -fprofile-generate" \
+CXXFLAGS="%{optflags} -fprofile-generate" \
+LDFLAGS="%{build_ldflags} -fprofile-generate" \
 %configure \
 	--disable-rpath \
 	--enable-threads
@@ -70,9 +64,10 @@ LDFLAGS="%{build_ldflags} -fprofile-instr-generate" \
 %make_build check ||:
 
 unset LD_LIBRARY_PATH
-unset LLVM_PROFILE_FILE
-llvm-profdata merge --output=%{name}.profile *.profile.d
-rm -f *.profile.d
+llvm-profdata merge --output=%{name}-llvm.profdata $(find . -name "*.profraw" -type f)
+PROFDATA="$(realpath %{name}-llvm.profdata)"
+rm -f *.profraw
+
 make clean
 # We can't add -fprofile-instr-use= here because it breaks running
 # configure again (mismatching macros in early parts)
@@ -83,9 +78,9 @@ make clean
 
 %make_build \
 %if %{with pgo}
-	CFLAGS="%{optflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
-	CXXFLAGS="%{optflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
-	LDFLAGS="%{ldflags} -fprofile-instr-use=$(realpath %{name}.profile)" \
+	CFLAGS="%{optflags} -fprofile-use=$PROFDATA" \
+	CXXFLAGS="%{optflags} -fprofile-use=$PROFDATA" \
+	LDFLAGS="%{build_ldflags} -fprofile-use=$PROFDATA"
 %endif
 
 %check
