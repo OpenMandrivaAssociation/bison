@@ -1,0 +1,14 @@
+diff -up bison-3.8.2/lib/canonicalize.c.omv~ bison-3.8.2/lib/canonicalize.c
+diff -up bison-3.8.2/lib/canonicalize-lgpl.c.omv~ bison-3.8.2/lib/canonicalize-lgpl.c
+diff -up bison-3.8.2/src/parse-gram.c.omv~ bison-3.8.2/src/parse-gram.c
+--- bison-3.8.2/src/parse-gram.c.omv~	2022-01-14 12:58:04.967165449 +0100
++++ bison-3.8.2/src/parse-gram.c	2022-01-14 12:58:29.466252969 +0100
+@@ -492,7 +492,7 @@ typedef int yy_state_fast_t;
+ 
+ /* Suppress an incorrect diagnostic about yylval being uninitialized.  */
+ #if defined __GNUC__ && ! defined __ICC && 406 <= __GNUC__ * 100 + __GNUC_MINOR__
+-# if __GNUC__ * 100 + __GNUC_MINOR__ < 407
++# if defined(__clang__) || (__GNUC__ * 100 + __GNUC_MINOR__ < 407)
+ #  define YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN                           \
+     _Pragma ("GCC diagnostic push")                                     \
+     _Pragma ("GCC diagnostic ignored \"-Wuninitialized\"")
