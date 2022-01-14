@@ -12,3 +12,16 @@ diff -up bison-3.8.2/src/parse-gram.c.omv~ bison-3.8.2/src/parse-gram.c
  #  define YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN                           \
      _Pragma ("GCC diagnostic push")                                     \
      _Pragma ("GCC diagnostic ignored \"-Wuninitialized\"")
+diff -up bison-3.8.2/data/skeletons/c.m4.omv~ bison-3.8.2/data/skeletons/c.m4
+--- bison-3.8.2/data/skeletons/c.m4.omv~	2022-01-14 14:25:40.872839854 +0100
++++ bison-3.8.2/data/skeletons/c.m4	2022-01-14 14:25:52.893881552 +0100
+@@ -417,7 +417,7 @@ dnl use C' _Noreturn in C++, to avoid -W
+ 
+ /* Suppress an incorrect diagnostic about yylval being uninitialized.  */
+ #if defined __GNUC__ && ! defined __ICC && 406 <= __GNUC__ * 100 + __GNUC_MINOR__
+-# if __GNUC__ * 100 + __GNUC_MINOR__ < 407
++# if __GNUC__ * 100 + __GNUC_MINOR__ < 407 || defined(__clang__)
+ #  define YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN                           \
+     _Pragma ("GCC diagnostic push")                                     \
+     _Pragma ("GCC diagnostic ignored \"-Wuninitialized\"")
+diff -up bison-3.8.2/data/skeletons/glr2.cc.omv~ bison-3.8.2/data/skeletons/glr2.cc
