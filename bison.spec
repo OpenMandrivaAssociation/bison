@@ -1,9 +1,6 @@
-# dont want lto on a static lib
-%define _disable_lto 1
-
 %define _disable_rebuild_configure 1
 %ifnarch riscv64
-%global optflags %{optflags} -O3
+%global optflags %{optflags} -Oz
 %endif
 
 # (tpg) enable PGO build
@@ -12,7 +9,7 @@
 Summary:	A GNU general-purpose parser generator
 Name:		bison
 Version:	3.8.2
-Release:	6
+Release:	7
 License:	GPLv3
 Group:		Development/Other
 Url:		http://www.gnu.org/software/bison/bison.html
@@ -48,6 +45,9 @@ since it is used to build many C programs.
 
 %prep
 %autosetup -p1
+
+# Avoid regenerating the info pages
+sed -i '2iexport TZ=UTC' build-aux/mdate-sh
 
 %build
 %if %{with pgo}
@@ -93,11 +93,39 @@ make clean
 mv %{buildroot}%{_bindir}/yacc %{buildroot}%{_bindir}/yacc.bison
 mv %{buildroot}%{_mandir}/man1/yacc.1 %{buildroot}%{_mandir}/man1/yacc.bison.1
 
-%find_lang %{name}
-%find_lang %{name}-runtime
-%find_lang %{name}-gnulib
-cat %{name}-runtime.lang >> %{name}.lang
-cat %{name}-gnulib.lang >> %{name}.lang
+%find_lang %{name} --all-name
+
+# (tpg) strip LTO from "LLVM IR bitcode" files
+check_convert_bitcode() {
+    printf '%s\n' "Checking for LLVM IR bitcode"
+    llvm_file_name=$(realpath ${1})
+    llvm_file_type=$(file ${llvm_file_name})
+
+    if printf '%s\n' "${llvm_file_type}" | grep -q "LLVM IR bitcode"; then
+# recompile without LTO
+	clang %{optflags} -fno-lto -Wno-unused-command-line-argument -x ir ${llvm_file_name} -c -o ${llvm_file_name}
+    elif printf '%s\n' "${llvm_file_type}" | grep -q "current ar archive"; then
+	printf '%s\n' "Unpacking ar archive ${llvm_file_name} to check for LLVM bitcode components."
+# create archive stage for objects
+	archive_stage=$(mktemp -d)
+	archive=${llvm_file_name}
+	cd ${archive_stage}
+	ar x ${archive}
+	for archived_file in $(find -not -type d); do
+	    check_convert_bitcode ${archived_file}
+	    printf '%s\n' "Repacking ${archived_file} into ${archive}."
+	    ar r ${archive} ${archived_file}
+	done
+	ranlib ${archive}
+	cd ..
+    fi
+}
+
+for i in $(find %{buildroot} -type f -name "*.[ao]"); do
+    check_convert_bitcode ${i}
+done
+
+
 
 %post
 %{_sbindir}/update-alternatives --install %{_bindir}/yacc yacc %{_bindir}/yacc.bison 10
