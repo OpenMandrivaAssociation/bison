@@ -7,7 +7,7 @@
 Summary:	A GNU general-purpose parser generator
 Name:		bison
 Version:	3.8.2
-Release:	8
+Release:	9
 License:	GPLv3
 Group:		Development/Other
 Url:		http://www.gnu.org/software/bison/bison.html
@@ -16,6 +16,7 @@ Source100:	%{name}.rpmlintrc
 Patch0:		bison-1.32-extfix.patch
 Patch1:		bison-3.8.1-clang.patch
 Patch2:		bison-3.8.2-clang-no-Wmaybe-uninitialized.patch
+Patch3:		https://github.com/akimd/bison/commit/a166d5450e3f47587b98f6005f9f5627dbe21a5b.patch
 BuildRequires:	help2man
 BuildRequires:	m4 >= 1.4
 BuildRequires:	perl-Locale-gettext
